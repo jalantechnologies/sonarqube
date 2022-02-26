@@ -1,8 +1,17 @@
 version: "3"
 
 services:
+  certbot:
+    image: certbot/certbot:latest
+    command: certbot certonly --webroot --webroot-path /var/www/certbot/ -d sonarqube.platform.jalantechnologies.com
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
   webserver:
     image: nginx:latest
+    depends_on:
+      - certbot
     ports:
       - "80:80"
       - "443:443"
@@ -13,12 +22,6 @@ services:
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     networks:
       - sonar_public_network
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
 
   sonarqube:
     image: mc1arke/sonarqube-with-community-branch-plugin:latest
