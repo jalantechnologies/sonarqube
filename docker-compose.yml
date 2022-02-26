@@ -22,7 +22,7 @@ services:
 
   sonarqube:
     image: mc1arke/sonarqube-with-community-branch-plugin:latest
-    container_name: sonarqube_app
+    container_name: sonarqubeapp
     depends_on:
       - webserver
       - db
