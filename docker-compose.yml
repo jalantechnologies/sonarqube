@@ -3,15 +3,12 @@ version: "3"
 services:
   certbot:
     image: certbot/certbot:latest
-    command: certonly --webroot --webroot-path /var/www/certbot/ -d sonarqube.platform.jalantechnologies.com -m developer@jalantechnologies.com --agree-tos
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
 
   webserver:
     image: nginx:latest
-    depends_on:
-      - certbot
     ports:
       - "80:80"
       - "443:443"
