@@ -14,7 +14,6 @@ SonarQube production setup:
 ## Project Import Process - GitHub
 
 On SonarQube:
-
 - Sign in using "GitHub" and start the import process from here - https://sonarqube.platform.jalantechnologies.com/projects/create?mode=github
 - Select organization and search for the project to import
 - Select with "GitHub actions" when asked for "How do you want to analyze your repository?"
