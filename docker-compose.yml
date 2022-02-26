@@ -1,9 +1,30 @@
 version: "3"
 
 services:
+  webserver:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    networks:
+      - sonar_public_network
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
   sonarqube:
-    image: mc1arke/sonarqube-with-community-branch-plugin
+    image: mc1arke/sonarqube-with-community-branch-plugin:latest
+    container_name: sonarqube_app
     depends_on:
+      - webserver
       - db
     environment:
       SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
@@ -16,7 +37,8 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - sonar_network
+      - sonar_public_network
+      - sonar_private_network
 
   db:
     image: postgres:12
@@ -27,7 +49,7 @@ services:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
     networks:
-      - sonar_network
+      - sonar_private_network
 
 volumes:
   sonarqube_data:
@@ -37,5 +59,6 @@ volumes:
   postgresql_data:
 
 networks:
-  sonar_network:
-    external: false
+  sonar_public_network:
+    external: true
+  sonar_private_network:
