@@ -30,14 +30,22 @@ On project:
 sonar.projectKey=<YOUR_PROJECT_KEY_HERE>
 ```
 
-If using GitHub actions:
+## If using GitHub actions:
 - After selecting "GitHub actions", generate token to get the value for `SONAR_TOKEN`. Take a note of it, this won't be shown again.
 - Take a note of value for `SONAR_HOST_URL` as well. This will be usually - `https://sonarqube.platform.jalantechnologies.com`
 - Add following github actions secrets via `Settings > Secrets > Actions`:
     - `SONAR_TOKEN`
     - `SONAR_HOST_URL`
 - Add following actions to your GitHub projects `.github/workflows/` directory:
-    - [analysis-sonarqube-pull-request.yml](https://github.com/jalantechnologies/jtc-website-v2/blob/develop/.github/workflows/analysis-sonarqube-push.yml) - Workflow which will run when Pull Requests are opened and updated to run branch anaysis.
+    - [analysis-sonarqube-pull-request.yml](https://github.com/jalantechnologies/platform-sonarqube/blob/main/github/actions/analysis-sonarqube-pull-request.yml) - Workflow which will run when Pull Requests are opened and updated to run branch anaysis.
     - [analysis-sonarqube-push.yml](https://github.com/jalantechnologies/platform-sonarqube/blob/main/github/actions/analysis-sonarqube-push.yml) - Workflow which will run when commits are pushed to default branch. Default is being assumed `develop` and can be changed according to the project.
 
-_Note:_ You might see the message ""<YOUR_DEFAULT_BRANCH>" branch has not been analyzed yet and you have multiple branches already. It looks like it is not your Main Branch, check your configuration.". This will get resolved once the checked in files are successfully merged to `<YOUR_DEFAULT_BRANCH>` branch.
+## If using CircleCI:
+- Select "Other CI" when prompted for "How do you want to analyze your repository?".
+- Generate token for the project and take a note of it. This will be the value for `SONAR_TOKEN`.
+- Add the following CircleCI configurationfile `config.yml` inside `.circleci` folder, in your root directory - [config.yml](https://github.com/jalantechnologies/platform-sonarqube/blob/main/circleci/workflows/config.yml)
+- Add following enviornment variables to your CircleCI project:
+    - `SONAR_TOKEN`
+    - `SONAR_HOST_URL`
+
+_Note:_ You might see the message `<YOUR_DEFAULT_BRANCH>` branch has not been analyzed yet and you have multiple branches already. It looks like it is not your Main Branch, check your configuration.". This will get resolved once the checked in files are successfully merged to `<YOUR_DEFAULT_BRANCH>` branch.
