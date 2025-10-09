@@ -14,7 +14,7 @@ if [ ! -f "$CERT_PATH" ]; then
     docker-compose run --rm certbot certonly -n \
         --webroot --webroot-path /var/www/certbot/ \
         -d "$DOMAIN" \
-        -m "$EMAwIL" \
+        -m "$EMAIL" \
         --agree-tos
 else
     echo "$(date) - Certificate exists for $DOMAIN, attempting renewal if due"
