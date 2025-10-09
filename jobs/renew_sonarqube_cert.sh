@@ -21,5 +21,5 @@ else
     docker-compose run --rm certbot renew
 fi
 
-docker exec platform-sonarqube_webserver_1 nginx -s reload
-echo "$(date) - Reloaded Nginx to apply any new certificate"
+docker-compose restart
+echo "$(date) - Restarted SonarQube stack successfully"
