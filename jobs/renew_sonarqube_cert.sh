@@ -5,8 +5,6 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 cd /home/projects/git/jalantechnologies/sonarqube
 
-# Certificates managed on this host. The legacy domain stays until all repos
-# are migrated to the new canonical domain; both are renewed here meanwhile.
 DOMAINS=(
     "sonarqube.platform.bettrhq.com"
     "code-scan.platform.btr.group"
